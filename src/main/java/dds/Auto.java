@@ -1,26 +1,54 @@
 package dds;
 
+//interface estado, para no tener muchas validaciones en la clase auto (COHESION de la clase)
+
 public class Auto {
 	double temperatura;
-	boolean estaEncendido;
 	int combustible;
+	int capacidadDeCombustible;
+	int velocidad;
+	boolean enLaReserva;
+	Estado estado;
 	
-	/*Cuando un auto se enciende, aumenta 70° la temperatura de su motor y consume el 0.001% del 
-	 * combustible.
-• Cuando un auto se detiene, aumenta la temperatura en 0.04° multiplicado por la velocidad que tenía 
-el auto al momento que se le dio la orden de frenado.*/
+	/*Auto(int combustible, int capacidadDeCombustible){
+		this.combustible = combustible;
+		this.capacidadDeCombustible = capacidadDeCombustible;
+	}*/
 	
 	public void encender() {
-		estaEncendido = true;
-		this.aumentarTemperatura(70);
-		this.consumirCombustible(0.001*combustible);
+		this.estado.encender(this);
+	}
+	
+	public void apagar() {
+		this.estado.apagar(this);
+	}
+	
+	public void acelerarA(int velocidad) {
+		this.estado.acelerarA(this,velocidad);
+	}
+	
+	public void detener() {
+		this.estado.detener(this);
 	}
 	
 	public void aumentarTemperatura(double aumento) {
-		temperatura += aumento;
+		this.temperatura += aumento;
 	}
 	
 	public void consumirCombustible(double consumo) {
-		combustible -= consumo;
+		this.combustible -= consumo;
 	}
+	
+	public boolean estaEnLaReserva() {
+		return this.enLaReserva;
+	}
+	
+	public boolean estaCaliente() {
+		return this.temperatura>=95;
+	}
+	
+	//public double porcentajeRestanteCombustible() {
+	//}
+	
+	
 }
